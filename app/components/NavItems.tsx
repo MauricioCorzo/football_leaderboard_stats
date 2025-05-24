@@ -43,25 +43,6 @@ const NavItems = ({ closeNavbar }: { closeNavbar: () => void }) => {
                     ))}
 
                     <p className='opacity-80 text-xs uppercase'>Last Visited</p>
-                    {sidebarItems.map((item) => (
-                        <NavLink to={item.href} key={item.id}>
-                            {({ isActive }) => (
-                                <div
-                                    className={cn('group nav-item', {
-                                        'bg-primary-100 !text-white': isActive,
-                                    })}>
-                                    <img
-                                        src={item.icon}
-                                        alt={item.label}
-                                        className={`group-hover:brightness-0 size-6 group-hover:invert ${
-                                            isActive ? 'brightness-0 invert' : 'text-dark-200'
-                                        }`}
-                                    />
-                                    {item.label}
-                                </div>
-                            )}
-                        </NavLink>
-                    ))}
                 </nav>
 
                 <footer className='nav-footer mt-auto'>

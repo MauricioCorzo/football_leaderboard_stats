@@ -24,9 +24,12 @@ const MobileSidebar = () => {
                 })}
                 onClick={() => setOpenMobileSidebar(!openMobileSidebar)}></div>
             <aside
-                className={cn('w-full max-w-[270px] bg-white fixed inset-0 -translate-x-[110%] transition-transform duration-200 ease-in-out', {
-                    'translate-0': openMobileSidebar,
-                })}>
+                className={cn(
+                    'w-full max-w-[270px] bg-white fixed z-[100] inset-0 -translate-x-[110%] transition-transform duration-200 ease-in-out',
+                    {
+                        'translate-0': openMobileSidebar,
+                    }
+                )}>
                 <NavItems closeNavbar={() => setOpenMobileSidebar(false)} />
             </aside>
         </div>

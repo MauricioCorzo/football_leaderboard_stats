@@ -8,7 +8,7 @@ const RootLayout = () => {
             <aside className='w-full self-start max-w-[270px] hidden sticky top-0 lg:block bg-white'>
                 <NavItems closeNavbar={() => {}} />
             </aside>
-            <aside className='w-full h-full bg-light-200 pt-8 lg:pt-10 overflow-x-hidden'>
+            <aside className='w-full min-h-full flex-1 bg-light-200 pt-8 lg:pt-10 overflow-x-hidden'>
                 <Outlet />
             </aside>
         </div>
