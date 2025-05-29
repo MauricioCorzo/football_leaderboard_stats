@@ -10,13 +10,19 @@ import { AvatarWithNameComponent } from "~/components/avatar_with_name";
 import { Top3ViewComponent } from "~/components/top_3_component";
 import { useLeaderboard } from "~/hooks/react_query/useLeaderboard";
 import type { Place } from "~/api/interfaces/leaderboard";
-import { getOrdinalSuffix } from "~/lib/utils";
+import { getOrdinalSuffix, sortItems } from "~/lib/utils";
 import { useLastVisitedStore } from "~/store/last_visited_store";
 import { useLeagueSelectedStore } from "~/store/league_selected_store";
 import { DataTableSkeleton } from "~/components/skeletons/data_table";
 import { Top3Skeleton } from "~/components/skeletons/top_3";
 import { RecentMatchesComponent } from "~/components/last_matches";
 import { ErrorComponent } from "~/components/error_component";
+import { TeamFavouriteToggle } from "~/components/team_favourite_toggle";
+
+import { CascadeSelect } from "primereact/cascadeselect";
+
+import { sortableColumns } from "~/constants";
+import { X } from "lucide-react";
 
 const Home = () => {
   const selectedLeagueStore = useLeagueSelectedStore(
@@ -29,9 +35,9 @@ const Home = () => {
 
   const addTeamVisit = useLastVisitedStore((state) => state.addTeamVisit);
 
-  const [value, setValue] = useState("");
+  const [filterValue, setFilterValue] = useState("");
   const [filters, setFilters] = useState<DataTableFilterMeta>({
-    "team.name": { value: null, matchMode: FilterMatchMode.CONTAINS },
+    "team.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   });
 
   if (error) {
@@ -52,6 +58,18 @@ const Home = () => {
       </main>
     );
   }
+
+  const [page, setPage] = useState(0);
+  const [selectValue, setSelectValue] = useState<{
+    name?: "Place" | "Club";
+    type?: "asc" | "desc";
+  } | null>({});
+
+  const sortedStandings = sortItems({
+    arr: data?.standings || [],
+    key: selectValue?.name,
+    order: selectValue?.type || "asc",
+  });
 
   return (
     <main className="dashboard wrapper">
@@ -91,49 +109,101 @@ const Home = () => {
           <div>
             <DataTable<Place[]>
               header={() => (
-                <div className="flex items-center justify-end gap-3">
-                  <Button
-                    type="button"
-                    label="Clear"
-                    outlined
-                    onClick={() => {
-                      setValue("");
-                      setFilters({
-                        "team.name": {
-                          value: null,
-                          matchMode: FilterMatchMode.CONTAINS,
+                <div className="flex sm:items-center justify-between sm:flex-row flex-col gap-3">
+                  <div className="flex justify-center items-center gap-2 ">
+                    <CascadeSelect
+                      placeholder="Sort by"
+                      options={sortableColumns}
+                      optionLabel="cname"
+                      optionGroupLabel="name"
+                      optionGroupChildren={["types"]}
+                      pt={{
+                        wrapper: {
+                          className:
+                            "[&_.p-cascadeselect-sublist-wrapper]:!left-0 [&_.p-cascadeselect-sublist-wrapper]:!top-[65px] sm:[&_.p-cascadeselect-sublist-wrapper]:!left-full sm:[&_.p-cascadeselect-sublist-wrapper]:!top-0",
                         },
-                      });
-                    }}
-                  />
-                  {/* <IconField iconPosition="left">
-                    <InputIcon className="pi pi-search" />
-                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
-                </IconField> */}
-                  <InputText
-                    value={value}
-                    onChange={(e) => {
-                      setValue(e.target.value);
-                      setFilters({
-                        ...filters,
-                        "team.name": {
-                          value: e.target.value,
-                          matchMode: FilterMatchMode.CONTAINS,
-                        },
-                      });
-                    }}
-                    placeholder="Club Search"
-                  />
+                      }}
+                      value={
+                        selectValue?.name
+                          ? `${selectValue.name} - ${selectValue.type}`
+                          : null
+                      }
+                      onChange={(e) => {
+                        const sortType = e.value.code.split("-")[1];
+
+                        setSelectValue({
+                          name: e.value.cname,
+                          type: sortType,
+                        });
+                      }}
+                      //quiero seleccionar un hijo de este elemento con tailwind
+                      className="w-full sm:w-52 capitalize "
+                    />
+                    {selectValue?.name && (
+                      <button
+                        onClick={() => setSelectValue(null)}
+                        className="hover:bg-gray-200 p-1 rounded-full cursor-pointer size-8 shrink-0">
+                        <X />
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-end gap-2">
+                    <InputText
+                      className="w-full md:w-72"
+                      value={filterValue}
+                      onChange={(e) => {
+                        setFilterValue(e.target.value);
+                        setFilters({
+                          ...filters,
+                          "team.name": {
+                            value: e.target.value,
+                            matchMode: FilterMatchMode.STARTS_WITH,
+                          },
+                        });
+                      }}
+                      placeholder="Club Search"
+                    />
+                    {filterValue && (
+                      <button
+                        onClick={() => {
+                          setFilterValue("");
+                          setFilters({
+                            "team.name": {
+                              value: null,
+                              matchMode: FilterMatchMode.STARTS_WITH,
+                            },
+                          });
+                        }}
+                        className="hover:bg-gray-200 p-1 rounded-full cursor-pointer size-8 shrink-0">
+                        <X />
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
-              value={data!.standings}
+              value={sortedStandings}
+              key={
+                selectValue?.name
+                  ? selectValue.name + "-" + selectValue.type
+                  : "default"
+              }
               filters={filters}
               size={"normal"}
               tableStyle={{ minWidth: "60rem" }}
               scrollable
               paginator
               rows={5}
+              first={page}
+              onPage={(e) => setPage(e.first)}
               className="custom-dataTable-header">
+              <Column
+                align={"center"}
+                className="!pl-3 !pr-0 w-[1%] whitespace-nowrap"
+                headerClassName="!pl-3 !pr-0 w-[1%] whitespace-nowrap"
+                header="Fav."
+                body={(data: Place) => (
+                  <TeamFavouriteToggle data={data} />
+                )}></Column>
               <Column
                 align={"center"}
                 field="rank"

@@ -23,7 +23,7 @@ const ClubDetailScreen = ({ params }: Route.ComponentProps) => {
 
   if (isLoading) {
     return (
-      <main className="dashboard wrapper pb-0 h-full grid grid-cols-2 gap-5 content-start">
+      <main className="dashboard wrapper pb-0 h-full grid md:grid-cols-2 gap-5 content-start">
         <TeamCardSkeleton />
         <StatsCardSkeleton />
         <StadiumCardSkeleton />
@@ -47,12 +47,12 @@ const ClubDetailScreen = ({ params }: Route.ComponentProps) => {
   }
 
   return (
-    <main className="dashboard wrapper pb-0 h-full grid grid-cols-2 gap-5 content-start">
+    <main className="dashboard wrapper pb-0 h-full grid grid-cols-1 md:grid-cols-2 gap-5 content-start">
       <div className="gap-4 bg-white rounded-20 shadow-xl w-full p-4">
         <p className="text-lg font-semibold mb-2 text-gray-100 uppercase">
           Team
         </p>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-center gap-4">
           <div className="size-28 aspect-square">
             <img
               src={data.team.logo}
@@ -97,7 +97,7 @@ const ClubDetailScreen = ({ params }: Route.ComponentProps) => {
           </div>
         </div>
       </div>
-      <div className="col-start-1 gap-4 bg-white rounded-20 shadow-xl w-full p-4">
+      <div className="md:col-start-1 gap-4 bg-white rounded-20 shadow-xl w-full p-4">
         <p className="text-lg font-semibold mb-2 text-gray-100 uppercase">
           Stats 2023
         </p>
@@ -154,7 +154,7 @@ const ClubDetailScreen = ({ params }: Route.ComponentProps) => {
         </div>
       </div>
 
-      <div className="row-start-1 row-span-2 col-start-2 bg-white rounded-20 shadow-xl w-full p-4">
+      <div className="md:row-start-1 md:row-span-2 md:col-start-2 bg-white rounded-20 shadow-xl w-full p-4">
         <p className="text-lg font-semibold mb-2 text-gray-100 uppercase">
           Stadium
         </p>
@@ -210,7 +210,7 @@ const ClubDetailScreen = ({ params }: Route.ComponentProps) => {
         </div>
       </div>
 
-      <div className="col-span-2">
+      <div className="md:col-span-2">
         <DataTable<Player[]>
           value={data.squad}
           size={"normal"}

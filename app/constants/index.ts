@@ -1,3 +1,4 @@
+import type { TreeNode } from "primereact/treenode";
 import type { LeagueIds } from "..";
 
 export const sidebarItems = [
@@ -17,7 +18,38 @@ export const sidebarItems = [
     id: 3,
     icon: "/assets/icons/star.svg",
     label: "Favorites",
-    href: "/favorites",
+    href: "/favorite-teams",
+  },
+];
+
+export const sortableColumns = [
+  {
+    name: "Ascending",
+    code: "asc",
+    types: [
+      {
+        cname: "Place",
+        code: "place-asc",
+      },
+      {
+        cname: "Club",
+        code: "club-asc",
+      },
+    ],
+  },
+  {
+    name: "Descending",
+    code: "desc",
+    types: [
+      {
+        cname: "Place",
+        code: "place-desc",
+      },
+      {
+        cname: "Club",
+        code: "club-desc",
+      },
+    ],
   },
 ];
 

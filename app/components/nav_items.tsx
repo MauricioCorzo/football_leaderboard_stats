@@ -18,16 +18,21 @@ const NavItems = ({ closeNavbar }: { closeNavbar: () => void }) => {
 
   return (
     <section className="nav-items">
-      <Link to={"/"} className="link-logo">
-        <img src="/assets/icons/logo.svg" className="size-7" alt="" />
-        <h1>StatBall</h1>
+      <div className="flex items-center justify-between ">
+        <Link
+          to={"/"}
+          onClick={closeNavbar}
+          className="link-logo items-baseline">
+          <img src="/assets/images/logo.png" className="size-7" alt="" />
+          <h1>StatBall</h1>
+        </Link>
 
         <button
-          className="ml-auto block lg:hidden cursor-pointer"
+          className=" block lg:hidden cursor-pointer"
           onClick={closeNavbar}>
           <img src="/assets/icons/arrow-back.svg" alt="Go back" />
         </button>
-      </Link>
+      </div>
       <div className="container">
         <nav>
           <p className="opacity-80 text-xs">MAIN MENU</p>

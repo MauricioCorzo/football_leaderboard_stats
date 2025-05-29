@@ -8,8 +8,8 @@ const MobileSidebar = () => {
   return (
     <div className="mobile-sidebar wrapper">
       <header>
-        <Link to="/">
-          <img src="/assets/icons/logo.svg" alt="Logo" className="size-7" />
+        <Link to="/" className="py-5 items-baseline">
+          <img src="/assets/images/logo.png" alt="Logo" className="size-7" />
           <h1>StatBall</h1>
         </Link>
 
