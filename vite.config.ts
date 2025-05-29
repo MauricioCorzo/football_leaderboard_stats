@@ -8,4 +8,8 @@ export default defineConfig({
   ssr: {
     noExternal: ["primereact"],
   },
+  server: {
+    host: true,
+    port: +(process.env.PORT ?? 4173),
+  },
 });
