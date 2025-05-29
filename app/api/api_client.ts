@@ -175,7 +175,7 @@ export const getTeamSquad = async ({ team_id }: { team_id: number }) => {
       team: team_id,
     },
   });
-  await new Promise((resolve) => setTimeout(resolve, 4000)); // Simulate delay for testing
+
   const data = await response.json();
   if (!response.ok) {
     throw new Error(
