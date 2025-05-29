@@ -29,7 +29,7 @@ export const getLeaderboardByLeague = async ({
   }
 
   const data = await response.json();
-  await sleep(1000); // Simulate delay for testing
+  await sleep(200);
 
   if (!data || !data.length) {
     throw new Error("No leaderboard data found");
@@ -50,7 +50,7 @@ export const getTopScorersByLeague = async ({
   });
 
   const data = await response.json();
-  await sleep(1000); // Simulate delay for testing
+  await sleep(200);
   if (!response.ok) {
     throw new Error(
       `Error: ${response.status} ${response.statusText} ${JSON.stringify(data)}`
@@ -74,7 +74,7 @@ export const getTopAssistsByLeague = async ({
   });
 
   const data = await response.json();
-  await sleep(1000); // Simulate delay for testing
+  await sleep(200);
   if (!response.ok) {
     throw new Error(
       `Error: ${response.status} ${response.statusText} ${JSON.stringify(data)}`
@@ -186,7 +186,8 @@ export const getTeamSquad = async ({ team_id }: { team_id: number }) => {
 };
 
 const base_url_json_server =
-  import.meta.env.VITE_JSON_SERVER_PUBLIC_API || `http://localhost:3001/league`;
+  import.meta.env.VITE_JSON_SERVER_PUBLIC_API ||
+  `https://json-server-soccer-api-backend-production.up.railway.app`;
 
 const base_url_api_football = `https://v3.football.api-sports.io`;
 

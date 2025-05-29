@@ -23,6 +23,5 @@ export const useTopRanking = ({
   return useQuery({
     queryKey: [QUERY_KEYS.GET_TOP_SCORERS, { league_id, type }],
     queryFn,
-    // 5 minutes
   });
 };

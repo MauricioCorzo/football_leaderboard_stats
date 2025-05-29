@@ -7,6 +7,5 @@ export const useLeaderboard = ({ league_id }: { league_id: LeagueIds }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_LEADERBOARD, { league_id }],
     queryFn: () => getLeaderboardByLeague({ league_id }),
-    // 5 minutes
   });
 };

@@ -1,10 +1,38 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { getTeamInfo, getTeamSquad, getTeamStatistics } from "~/api/api_client";
 import type { TeamInfo } from "~/api/interfaces/team_information";
-import type { TeamSquad } from "~/api/interfaces/team_squad";
+import type { Player, TeamSquad } from "~/api/interfaces/team_squad";
 import type { TeamStatistics } from "~/api/interfaces/team_statistics";
 import { QUERY_KEYS } from "~/api/query_keys";
 import type { LeagueIds } from "~/index";
+
+export interface TeamDetailData {
+  team: {
+    name: string;
+    logo: string;
+    league: string;
+    league_icon: string;
+    league_country: string;
+    league_country_flag: string;
+  };
+  stadium: {
+    image: string;
+    name: string;
+    address: string;
+    city: string;
+    capacity: number;
+    surface: string;
+  };
+  statistics: {
+    wins: number;
+    loses: number;
+    draws: number;
+    goals: number;
+    clean_sheets: number;
+    prefered_formation: string;
+  };
+  squad: Player[];
+}
 
 export const useTeamCompleteInformation = ({
   league_id,
@@ -51,7 +79,7 @@ function transformTeamData(data: {
   statistics: TeamStatistics["response"];
   information: TeamInfo["response"];
   squad: TeamSquad["response"];
-}) {
+}): TeamDetailData {
   return {
     team: {
       name: data.information?.[0].team.name,

@@ -16,7 +16,6 @@ type Action = {
   addTeamVisit: (team: TeamsVisited) => void;
 };
 
-// Create your store, which includes both state and (optionally) actions
 export const useLastVisitedStore = create<State & Action>((set) => ({
   teams_visited: getFromLocalStorage("teamsVisited") || [],
 
@@ -35,9 +34,9 @@ export const useLastVisitedStore = create<State & Action>((set) => ({
         saveToLocalStorage("teamsVisited", teams_visited);
         return {
           teams_visited: teams_visited,
-        }; // Si ya existe, no hace nada
+        };
       }
-      // Si no existe, agrega el nuevo equipo al inicio del array
+
       const teams_visited = [team, ...state.teams_visited.slice(0, 2)];
       saveToLocalStorage("teamsVisited", teams_visited);
       return {

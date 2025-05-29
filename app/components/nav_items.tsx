@@ -2,7 +2,6 @@ import { Link, NavLink } from "react-router";
 import { sidebarItems } from "~/constants";
 import { cn } from "~/lib/utils";
 import { useLastVisitedStore } from "~/store/last_visited_store";
-import { useLeagueSelectedStore } from "~/store/league_selected_store";
 
 const user = {
   name: "Mauricio",
@@ -12,9 +11,6 @@ const user = {
 
 const NavItems = ({ closeNavbar }: { closeNavbar: () => void }) => {
   const lastTeamsVisited = useLastVisitedStore((state) => state.teams_visited);
-  const updateLeagueSelected = useLeagueSelectedStore(
-    (state) => state.updateLeagueSelected
-  );
 
   return (
     <section className="nav-items">
@@ -73,9 +69,6 @@ const NavItems = ({ closeNavbar }: { closeNavbar: () => void }) => {
                       className="size-8"
                       src={team?.team_logo}
                       alt={team?.team_name}
-                      //   className={`group-hover:brightness-0 size-6 group-hover:invert ${
-                      //     isActive ? "brightness-0 invert" : "text-dark-200"
-                      //   }`}
                     />
                     <span>{team?.team_name}</span>
                   </div>

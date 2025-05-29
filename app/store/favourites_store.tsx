@@ -19,7 +19,6 @@ type Action = {
   removeFavouriteTeam: (teamId: number) => void;
 };
 
-// Create your store, which includes both state and (optionally) actions
 export const useFavouritesStore = create<State & Action>((set) => ({
   favourite_teams: getFromLocalStorage("favouriteTeams") || {},
 
